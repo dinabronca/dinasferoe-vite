@@ -113,80 +113,10 @@ algunos archivos solo necesitan existir.`,
     ];
   });
 
-  const mediaItems = [
-    { 
-      id: 1, 
-      type: 'image', 
-      url: 'https://images.unsplash.com/photo-1557683316-973673baf926?w=800', 
-      title: 'ciudad fantasma nocturna', 
-      desc: 'calle vacía con neón reflejado en asfalto mojado',
-      linked: 1 
-    },
-    { 
-      id: 2, 
-      type: 'image', 
-      url: 'https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=800', 
-      title: 'esquina que nunca existió', 
-      desc: 'geometría urbana abstracta, luces borrosas',
-      linked: 1 
-    },
-    { 
-      id: 3, 
-      type: 'image', 
-      url: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800', 
-      title: 'proyecto abandonado #47', 
-      desc: 'escritorio vacío, monitor apagado, café frío',
-      linked: 2 
-    },
-    { 
-      id: 4, 
-      type: 'image', 
-      url: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800', 
-      title: 'textura del fracaso', 
-      desc: 'papel arrugado, bocetos incompletos',
-      linked: 2 
-    },
-    { 
-      id: 5, 
-      type: 'image', 
-      url: 'https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?w=800', 
-      title: 'archivo corrupto emocional', 
-      desc: 'glitch digital, píxeles rotos, memoria fragmentada',
-      linked: 3 
-    },
-    { 
-      id: 6, 
-      type: 'image', 
-      url: 'https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=800', 
-      title: 'carpeta de descargas', 
-      desc: 'screenshots olvidados, memes guardados sin razón',
-      linked: 3 
-    },
-    { 
-      id: 7, 
-      type: 'image', 
-      url: 'https://images.unsplash.com/photo-1547036967-23d11aacaee0?w=800', 
-      title: 'nostalgia sintética', 
-      desc: 'colores saturados, estética vhs, recuerdo inventado',
-      linked: 1 
-    },
-    { 
-      id: 8, 
-      type: 'image', 
-      url: 'https://images.unsplash.com/photo-1509023464722-18d996393ca8?w=800', 
-      title: 'promesa eterna', 
-      desc: 'horizonte infinito, camino sin destino',
-      linked: 2 
-    },
-    { 
-      id: 9, 
-      type: 'image', 
-      url: 'https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=800', 
-      title: 'museo digital vacío', 
-      desc: 'galería blanca, frames sin contenido',
-      linked: 3 
-    },
-  ];
+ const [mediaItems, setMediaItems] = useState(() => {
+  const saved = localStorage.getItem('dinamarca_media');
+  return saved ? JSON.parse(saved) : [];
+});
 
   // PROYECTOS - Se editan desde el panel admin
   const [projects, setProjects] = useState(() => {
@@ -198,6 +128,7 @@ algunos archivos solo necesitan existir.`,
         type: 'podcast',
         description: 'conversaciones sobre cosas que importan y cosas que no. principalmente cosas que no.',
         logo: '◉',
+        logoImage: '',
         link: '#'
       },
       { 
@@ -206,6 +137,7 @@ algunos archivos solo necesitan existir.`,
         type: 'religión ficticia',
         description: 'una religión inventada con rituales reales. humor existencial carbonatado.',
         logo: '◬',
+        logoImage: '',
         link: '#'
       },
       { 
@@ -214,6 +146,7 @@ algunos archivos solo necesitan existir.`,
         type: 'plataforma',
         description: 'suscripciones. contenido exclusivo. la ilusión de comunidad.',
         logo: '▣',
+        logoImage: '',
         link: '#'
       },
       { 
@@ -222,6 +155,7 @@ algunos archivos solo necesitan existir.`,
         type: 'arte visual',
         description: 'prints minimalistas para gente que entiende el silencio.',
         logo: '◘',
+        logoImage: '',
         link: '#'
       },
     ];
@@ -376,7 +310,7 @@ algunos archivos solo necesitan existir.`,
 
           {/* Desktop Menu */}
           <div className="hidden md:flex gap-4 lg:gap-6 font-mono text-xs lg:text-sm">
-            {['about me', 'publicaciones', 'multimedia', 'proyectos', 'contacto'].map(section => (
+            {['about me', 'publicaciones', 'multimedia', 'proyectos', 'clima', 'contacto'].map(section => (
               <button
                 key={section}
                 onClick={() => setCurrentSection(section)}
@@ -402,7 +336,7 @@ algunos archivos solo necesitan existir.`,
         {mobileMenuOpen && (
           <div className="md:hidden bg-black/95 border-t border-white/10">
             <div className="container mx-auto px-4 py-4 flex flex-col gap-4 font-mono text-sm">
-              {['about me', 'publicaciones', 'multimedia', 'proyectos', 'contacto'].map(section => (
+              {['about me', 'publicaciones', 'multimedia', 'proyectos', 'clima', 'contacto'].map(section => (
                 <button
                   key={section}
                   onClick={() => {
@@ -781,7 +715,15 @@ algunos archivos solo necesitan existir.`,
                 ))}
               </div>
               
-              <div className="text-4xl sm:text-5xl mb-3 group-hover:scale-110 transition-transform relative z-10">{project.logo}</div>
+              {project.logoImage ? (
+  <img 
+    src={project.logoImage} 
+    alt={project.name} 
+    className="w-10 h-10 object-contain mb-3 group-hover:scale-110 transition-transform relative z-10" 
+  />
+) : (
+  <div className="text-4xl sm:text-5xl mb-3 group-hover:scale-110 transition-transform relative z-10">▪️</div>
+)}
               <h3 className="font-mono text-white text-base sm:text-lg mb-1 lowercase relative z-10">{project.name}</h3>
               <p className="font-mono text-white/40 text-xs lowercase relative z-10">{project.type}</p>
               
@@ -1011,7 +953,7 @@ algunos archivos solo necesitan existir.`,
 
           {/* Tabs */}
           <div className="flex gap-2 sm:gap-4 mb-6 sm:mb-8 border-b border-white/10 overflow-x-auto">
-            {['about', 'redes', 'publicaciones', 'proyectos'].map(tab => (
+            {['about', 'redes', 'publicaciones', 'proyectos', 'multimedia'].map(tab => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
@@ -1023,7 +965,59 @@ algunos archivos solo necesitan existir.`,
               </button>
             ))}
           </div>
+{/* MULTIMEDIA TAB */}
+{activeTab === 'multimedia' && (
+  <div className="space-y-8">
+    <div className="border border-white/10 p-6 space-y-4">
+      <h3 className="font-mono text-white/50 text-sm mb-4">agregar imagen</h3>
+      <input
+        placeholder="URL de la imagen"
+        id="newMediaUrl"
+        className="w-full bg-white/5 border border-white/10 px-4 py-2 font-mono text-white lowercase focus:border-red-500 focus:outline-none"
+      />
+      <input
+        placeholder="título"
+        id="newMediaTitle"
+        className="w-full bg-white/5 border border-white/10 px-4 py-2 font-mono text-white lowercase focus:border-red-500 focus:outline-none"
+      />
+      <input
+        placeholder="descripción"
+        id="newMediaDesc"
+        className="w-full bg-white/5 border border-white/10 px-4 py-2 font-mono text-white lowercase focus:border-red-500 focus:outline-none"
+      />
+      <button
+        onClick={() => {
+          const url = document.getElementById('newMediaUrl').value;
+          const title = document.getElementById('newMediaTitle').value;
+          const desc = document.getElementById('newMediaDesc').value;
+          
+          if (url && title) {
+            const newItem = {
+              id: Date.now(),
+              type: 'image',
+              url,
+              title,
+              desc,
+              linked: 1
+            };
+            const updated = [...mediaItems, newItem];
+            setMediaItems(updated);
+            localStorage.setItem('dinamarca_media', JSON.stringify(updated));
+            document.getElementById('newMediaUrl').value = '';
+            document.getElementById('newMediaTitle').value = '';
+            document.getElementById('newMediaDesc').value = '';
+            alert('Imagen agregada ✓');
+          }
+        }}
+        className="font-mono text-white border border-white/20 px-8 py-3 hover:bg-red-500 hover:border-red-500 transition-all"
+      >
+        agregar imagen
+      </button>
+    </div>
 
+    <div className="space-y-4">
+      <h3 className="font-mono text-white/50 text-sm">imágenes actuales</h3>
+      {mediaItems.map((item, idx) =>
           {/* ABOUT ME TAB */}
           {activeTab === 'about' && (
             <div className="space-y-6">
@@ -1197,10 +1191,15 @@ algunos archivos solo necesitan existir.`,
                   id="newProjectDesc"
                 />
                 <input
-                  placeholder="logo (emoji o símbolo, ej: ◉)"
-                  className="w-32 bg-white/5 border border-white/10 px-4 py-2 font-mono text-white focus:border-red-500 focus:outline-none"
-                  id="newProjectLogo"
-                />
+  placeholder="URL de imagen del logo (40x40px)"
+  value={project.logoImage || ''}
+  onChange={(e) => {
+    const updated = [...editingProjects];
+    updated[idx].logoImage = e.target.value;
+    setEditingProjects(updated);
+  }}
+  className="w-full bg-white/5 border border-white/10 px-4 py-2 font-mono text-white lowercase focus:border-red-500 focus:outline-none"
+/>
                 <input
                   placeholder="link del proyecto (url completa)"
                   className="w-full bg-white/5 border border-white/10 px-4 py-2 font-mono text-white lowercase focus:border-red-500 focus:outline-none"
@@ -1338,13 +1337,36 @@ algunos archivos solo necesitan existir.`,
       </div>
     );
   };
+const Clima = () => {
+  const ciudades = [
+    'Buenos Aires', 'Ushuaia', 'El Calafate', 'Puerto Madryn',
+    'San Martin de los Andes', 'Viedma', 'Mar del Plata'
+  ];
 
+  return (
+    <div className="min-h-screen bg-black pt-24 sm:pt-32 pb-20 sm:pb-24 px-4 sm:px-8">
+      <div className="max-w-7xl mx-auto">
+        <h1 className="font-mono text-white/30 text-xs sm:text-sm mb-8 sm:mb-12 tracking-widest">CLIMA</h1>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+          {ciudades.map((ciudad, idx) => (
+            <div key={idx} className="border border-white/10 p-4 hover:border-red-500/50 transition-all">
+              <div className="font-mono text-white text-sm mb-2 lowercase">{ciudad}</div>
+              <div className="font-mono text-white/50 text-xs mb-2 lowercase">soleado</div>
+              <div className="font-mono text-2xl" style={{color: '#ff6b6b'}}>24°</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
   const sections = {
     'home': <Home />,
     'about me': <AboutMe />,
     'publicaciones': <Publicaciones />,
     'multimedia': <Multimedia />,
     'proyectos': <Proyectos />,
+    'clima': <Clima />,
     'contacto': <Contacto />,
     'admin': <AdminPanel />
   };
