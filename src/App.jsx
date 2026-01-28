@@ -7,11 +7,12 @@ const DINAMARCA = () => {
   const [selectedProject, setSelectedProject] = useState(null);
   const [selectedPublication, setSelectedPublication] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [adminPasswordInput, setAdminPasswordInput] = useState('');
   const [showAdminLogin, setShowAdminLogin] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  // Admin password - Editable desde el panel admin
-  const [adminPassword, setAdminPassword] = useState(() => {
+  // Admin password stored - Editable desde el panel admin
+  const [storedPassword, setStoredPassword] = useState(() => {
     const saved = localStorage.getItem('dinamarca_admin_password');
     return saved || 'dinamarca2025';
   });
@@ -1526,14 +1527,14 @@ algunos archivos solo necesitan existir.`,
 
   const handleAdminLogin = (e) => {
     e.preventDefault();
-    if (adminPassword === ADMIN_PASSWORD) {
+    if (adminPasswordInput === storedPassword) {
       setIsAdmin(true);
       setCurrentSection('admin');
       setShowAdminLogin(false);
-      setAdminPassword('');
+      setAdminPasswordInput('');
     } else {
       alert('contraseña incorrecta');
-      setAdminPassword('');
+      setAdminPasswordInput('');
     }
   };
 
@@ -1554,8 +1555,8 @@ algunos archivos solo necesitan existir.`,
                 <input
                   type="password"
                   placeholder="contraseña"
-                  value={adminPassword}
-                  onChange={(e) => setAdminPassword(e.target.value)}
+                  value={adminPasswordInput}
+                  onChange={(e) => setAdminPasswordInput(e.target.value)}
                   className="w-full bg-white/5 border border-white/10 px-4 py-3 font-mono text-white lowercase focus:border-red-500 focus:outline-none"
                   autoFocus
                 />
@@ -1570,7 +1571,7 @@ algunos archivos solo necesitan existir.`,
                     type="button"
                     onClick={() => {
                       setShowAdminLogin(false);
-                      setAdminPassword('');
+                      setAdminPasswordInput('');
                       window.location.hash = '';
                     }}
                     className="font-mono text-white/50 hover:text-red-500 transition-colors"
