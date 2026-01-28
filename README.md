@@ -18,12 +18,6 @@ npm install
 npm run dev
 ```
 
-## 📝 Admin Panel
-
-Accedé al panel de administración agregando `#admin` a tu URL:
-- Contraseña por defecto: `dinamarca2025`
-- Cambiar en `src/App.jsx` línea ~18
-
 ## ✨ Features
 
 - Panel admin para editar contenido sin tocar código
