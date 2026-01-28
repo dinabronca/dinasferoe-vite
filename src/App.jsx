@@ -1419,36 +1419,36 @@ algunos archivos solo necesitan existir.`,
   // Componente CLIMA
   const Clima = () => {
     const ciudadesConFotos = [
-      { nombre: 'Buenos Aires', imagen: 'https://images.unsplash.com/photo-1589909202802-8f4aadce1849' }, // Obelisco BA
-      { nombre: 'Ushuaia', imagen: 'https://images.unsplash.com/photo-1568632234157-ce7aecd03d0d' }, // Fin del mundo
-      { nombre: 'El Calafate', imagen: 'https://images.unsplash.com/photo-1605724995408-8b9b2d41a376' }, // Glaciar Perito Moreno
-      { nombre: 'Puerto Madryn', imagen: 'https://images.unsplash.com/photo-1583508915901-b5f84c1dcde1' }, // Costa ballenas
-      { nombre: 'San Martin de los Andes', imagen: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4' }, // Lagos patagónicos
-      { nombre: 'Viedma', imagen: 'https://images.unsplash.com/photo-1559827260-dc66d52bef19' }, // Costa atlántica
-      { nombre: 'Cuatral Co', imagen: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef' }, // Estepa patagónica
-      { nombre: 'Mar del Plata', imagen: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4' }, // Playa argentina
-      { nombre: 'Ramos Mejia', imagen: 'https://images.unsplash.com/photo-1477959858617-67f85cf4f1df' }, // Ciudad suburbana
-      { nombre: 'Trenque Lauquen', imagen: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef' }, // Laguna pampeana
-      { nombre: 'Santa Rosa', imagen: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef' }, // Pampa La Pampa
-      { nombre: 'Villa Mercedes', imagen: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4' }, // Sierras San Luis
-      { nombre: 'Mendoza', imagen: 'https://images.unsplash.com/photo-1474366521946-c3d4b507abf2' }, // Viñedos Andes
-      { nombre: 'Venado Tuerto', imagen: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef' }, // Campo agrícola
-      { nombre: 'Rio Cuarto', imagen: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef' }, // Pampa húmeda
-      { nombre: 'Villa Gral Belgrano', imagen: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4' }, // Sierras Córdoba
-      { nombre: 'Concordia', imagen: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4' }, // Río Uruguay
-      { nombre: 'Chilecito', imagen: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4' }, // Sierras La Rioja
-      { nombre: 'Curuzu Cuatia', imagen: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef' }, // Llanura Corrientes
-      { nombre: 'Fiambala', imagen: 'https://images.unsplash.com/photo-1509023464722-18d996393ca8' }, // Desierto Catamarca
-      { nombre: 'Cafayate', imagen: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4' }, // Valles Calchaquíes
-      { nombre: 'Purmamarca', imagen: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b' }, // Cerro 7 Colores
-      { nombre: 'Clorinda', imagen: 'https://images.unsplash.com/photo-1516026672322-bc52d61a55d5' }, // Selva subtropical
-      { nombre: 'Puerto Iguazu', imagen: 'https://images.unsplash.com/photo-1544735716-392fe2489ffa' }, // Cataratas
-      { nombre: 'Tartagal', imagen: 'https://images.unsplash.com/photo-1516026672322-bc52d61a55d5' }, // Yungas
-      { nombre: 'Islas Malvinas', imagen: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4' }, // Costa sur
-      { nombre: 'San Isidro', imagen: 'https://images.unsplash.com/photo-1477959858617-67f85cf4f1df' }, // Costa Buenos Aires
-      { nombre: 'La Plata', imagen: 'https://images.unsplash.com/photo-1477959858617-67f85cf4f1df' }, // Catedral ciudad
-      { nombre: 'Pehuajo', imagen: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef' }, // Campo pampeano
-      { nombre: 'Base Marambio', imagen: 'https://images.unsplash.com/photo-1483664852095-d6cc6870702d' } // Antártida
+      { nombre: 'Buenos Aires', imagen: 'https://i.pinimg.com/1200x/2c/10/43/2c104376c2708609bdc442a63146247e.jpg' },
+      { nombre: 'Ushuaia', imagen: 'https://i.pinimg.com/1200x/a4/c1/a8/a4c1a858d01267fa2df562d1cb84f37c.jpg' },
+      { nombre: 'El Calafate', imagen: 'https://i.pinimg.com/1200x/87/b9/b4/87b9b413c6b3719971bf5d4c6f40e2ef.jpg' },
+      { nombre: 'Puerto Madryn', imagen: 'https://i.pinimg.com/1200x/15/00/e4/1500e4174f1246e6a221f37e680f23a9.jpg' },
+      { nombre: 'San Martin de los Andes', imagen: 'https://i.pinimg.com/736x/58/8f/ee/588fee60b3355853ef196f691973fee2.jpg' },
+      { nombre: 'Viedma', imagen: 'https://i.pinimg.com/736x/0b/66/e8/0b66e80ef5a58a19dc74b1038365f499.jpg' },
+      { nombre: 'Cuatral Co', imagen: 'https://i.pinimg.com/1200x/28/13/fc/2813fc0703ffa2de77a9055d9f7d0595.jpg' },
+      { nombre: 'Mar del Plata', imagen: 'https://i.pinimg.com/1200x/c6/0a/41/c60a411cc5cc25641f9b5b8b08ff5bb7.jpg' },
+      { nombre: 'Ramos Mejia', imagen: 'https://i.pinimg.com/1200x/f8/34/77/f83477dc37b8f54da13fe224fd0c2d43.jpg' },
+      { nombre: 'Trenque Lauquen', imagen: 'https://i.pinimg.com/1200x/d6/23/13/d62313512542dfa69e90b8e2590eb800.jpg' },
+      { nombre: 'Santa Rosa', imagen: 'https://i.pinimg.com/1200x/62/0c/52/620c52a60e8a01e73a6bc636ee3b739f.jpg' },
+      { nombre: 'Villa Mercedes', imagen: 'https://i.pinimg.com/736x/cc/25/36/cc25360301068e62dc6f515824c55e9c.jpg' },
+      { nombre: 'Mendoza', imagen: 'https://i.pinimg.com/736x/3d/42/6e/3d426e2055699351ab582bf8efe2c7d0.jpg' },
+      { nombre: 'Venado Tuerto', imagen: 'https://i.pinimg.com/1200x/8e/85/68/8e856850e4ad3538bb18b1c0c4c47846.jpg' },
+      { nombre: 'Rio Cuarto', imagen: 'https://i.pinimg.com/1200x/3a/ea/4c/3aea4c4fd23faf003452b97f82a266fb.jpg' },
+      { nombre: 'Villa Gral Belgrano', imagen: 'https://i.pinimg.com/1200x/50/04/8b/50048b76f2e7a876b8502e4479657c2d.jpg' },
+      { nombre: 'Concordia', imagen: 'https://i.pinimg.com/1200x/b8/3e/0a/b83e0ac7738a47c84bc79d16430d8217.jpg' },
+      { nombre: 'Chilecito', imagen: 'https://i.pinimg.com/1200x/bb/c6/5f/bbc65f94c4b43052c0c6ec86e943b6e6.jpg' },
+      { nombre: 'Curuzu Cuatia', imagen: 'https://i.pinimg.com/736x/b6/f6/5f/b6f65f6870ddf6d2222ea143c2aef59d.jpg' },
+      { nombre: 'Fiambala', imagen: 'https://i.pinimg.com/736x/b2/ff/3f/b2ff3fddfce674a52ad9c6d1eb99ad15.jpg' },
+      { nombre: 'Cafayate', imagen: 'https://i.pinimg.com/736x/b4/94/36/b494368665c2a6011e8697354b7b6697.jpg' },
+      { nombre: 'Purmamarca', imagen: 'https://i.pinimg.com/1200x/4d/fa/94/4dfa947b71227e0be3df8492159f579b.jpg' },
+      { nombre: 'Clorinda', imagen: 'https://i.pinimg.com/736x/59/9e/79/599e79a2b3e94edbce4e8dc87fa3e800.jpg' },
+      { nombre: 'Puerto Iguazu', imagen: 'https://i.pinimg.com/736x/82/24/56/822456f46023589086411105591e6e87.jpg' },
+      { nombre: 'Tartagal', imagen: 'https://i.pinimg.com/1200x/04/68/af/0468af79324a6e8beb736f61566a2bd5.jpg' },
+      { nombre: 'Islas Malvinas', imagen: 'https://i.pinimg.com/1200x/99/77/be/9977beb0331a3dd05940e218dad96ef7.jpg' },
+      { nombre: 'San Isidro', imagen: 'https://i.pinimg.com/736x/4d/32/1b/4d321b5f6293248cdf15936a3c07200b.jpg' },
+      { nombre: 'La Plata', imagen: 'https://i.pinimg.com/736x/c5/a7/21/c5a721baeddadca3e337a7ee5cc631b1.jpg' },
+      { nombre: 'Pehuajo', imagen: 'https://i.pinimg.com/736x/a0/a8/3b/a0a83be488519a7ddbd226de91eb9b87.jpg' },
+      { nombre: 'Base Marambio', imagen: 'https://i.pinimg.com/736x/9e/d6/f0/9ed6f02cd9aba22b33ac503c03ba4643.jpg' }
     ];
 
     const getColorForTemp = (temp) => {
