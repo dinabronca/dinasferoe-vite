@@ -7,7 +7,6 @@ const DINAMARCA = () => {
   const [selectedProject, setSelectedProject] = useState(null);
   const [selectedPublication, setSelectedPublication] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
-  const [adminPassword, setAdminPassword] = useState('');
   const [showAdminLogin, setShowAdminLogin] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
