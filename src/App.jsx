@@ -11,8 +11,11 @@ const DINAMARCA = () => {
   const [showAdminLogin, setShowAdminLogin] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  // Admin password - CAMBIÁ ESTO POR TU CONTRASEÑA
-  const ADMIN_PASSWORD = 'dinamarca2025';
+  // Admin password - Editable desde el panel admin
+  const [adminPassword, setAdminPassword] = useState(() => {
+    const saved = localStorage.getItem('dinamarca_admin_password');
+    return saved || 'dinamarca2025';
+  });
 
   // ========================================
   // 🔴 EDITÁ ACÁ TU INFORMACIÓN PERSONAL
@@ -113,10 +116,11 @@ algunos archivos solo necesitan existir.`,
     ];
   });
 
- const [mediaItems, setMediaItems] = useState(() => {
-  const saved = localStorage.getItem('dinamarca_media');
-  return saved ? JSON.parse(saved) : [];
-});
+  // MULTIMEDIA - Editable desde admin
+  const [mediaItems, setMediaItems] = useState(() => {
+    const saved = localStorage.getItem('dinamarca_media');
+    return saved ? JSON.parse(saved) : [];
+  });
 
   // PROYECTOS - Se editan desde el panel admin
   const [projects, setProjects] = useState(() => {
@@ -716,14 +720,14 @@ algunos archivos solo necesitan existir.`,
               </div>
               
               {project.logoImage ? (
-  <img 
-    src={project.logoImage} 
-    alt={project.name} 
-    className="w-10 h-10 object-contain mb-3 group-hover:scale-110 transition-transform relative z-10" 
-  />
-) : (
-  <div className="text-4xl sm:text-5xl mb-3 group-hover:scale-110 transition-transform relative z-10">▪️</div>
-)}
+                <img 
+                  src={project.logoImage} 
+                  alt={project.name} 
+                  className="w-10 h-10 object-contain mb-3 group-hover:scale-110 transition-transform relative z-10" 
+                />
+              ) : (
+                <div className="text-4xl sm:text-5xl mb-3 group-hover:scale-110 transition-transform relative z-10">{project.logo || '▪️'}</div>
+              )}
               <h3 className="font-mono text-white text-base sm:text-lg mb-1 lowercase relative z-10">{project.name}</h3>
               <p className="font-mono text-white/40 text-xs lowercase relative z-10">{project.type}</p>
               
@@ -965,81 +969,6 @@ algunos archivos solo necesitan existir.`,
               </button>
             ))}
           </div>
-{/* MULTIMEDIA TAB */}
-{activeTab === 'multimedia' && (
-  <div className="space-y-8">
-    <div className="border border-white/10 p-6 space-y-4">
-      <h3 className="font-mono text-white/50 text-sm mb-4">agregar imagen</h3>
-      <input
-        placeholder="URL de la imagen"
-        id="newMediaUrl"
-        className="w-full bg-white/5 border border-white/10 px-4 py-2 font-mono text-white lowercase focus:border-red-500 focus:outline-none"
-      />
-      <input
-        placeholder="título"
-        id="newMediaTitle"
-        className="w-full bg-white/5 border border-white/10 px-4 py-2 font-mono text-white lowercase focus:border-red-500 focus:outline-none"
-      />
-      <input
-        placeholder="descripción"
-        id="newMediaDesc"
-        className="w-full bg-white/5 border border-white/10 px-4 py-2 font-mono text-white lowercase focus:border-red-500 focus:outline-none"
-      />
-      <button
-        onClick={() => {
-          const url = document.getElementById('newMediaUrl').value;
-          const title = document.getElementById('newMediaTitle').value;
-          const desc = document.getElementById('newMediaDesc').value;
-          
-          if (url && title) {
-            const newItem = {
-              id: Date.now(),
-              type: 'image',
-              url,
-              title,
-              desc,
-              linked: 1
-            };
-            const updated = [...mediaItems, newItem];
-            setMediaItems(updated);
-            localStorage.setItem('dinamarca_media', JSON.stringify(updated));
-            document.getElementById('newMediaUrl').value = '';
-            document.getElementById('newMediaTitle').value = '';
-            document.getElementById('newMediaDesc').value = '';
-            alert('Imagen agregada ✓');
-          }
-        }}
-        className="font-mono text-white border border-white/20 px-8 py-3 hover:bg-red-500 hover:border-red-500 transition-all"
-      >
-        agregar imagen
-      </button>
-    </div>
-
-    <div className="space-y-4">
-      <h3 className="font-mono text-white/50 text-sm">imágenes actuales</h3>
-
-        <div key={item.id} className="border border-white/10 p-4 flex justify-between items-center">
-          <div>
-            <div className="font-mono text-white lowercase">{item.title}</div>
-            <div className="font-mono text-white/40 text-xs mt-1">{item.desc}</div>
-          </div>
-          <button
-            onClick={() => {
-              if (confirm('¿Eliminar esta imagen?')) {
-                const updated = mediaItems.filter((_, i) => i !== idx);
-                setMediaItems(updated);
-                localStorage.setItem('dinamarca_media', JSON.stringify(updated));
-              }
-            }}
-            className="font-mono text-red-500 hover:underline text-sm"
-          >
-            eliminar
-          </button>
-        </div>
-    
-      </div>
-    </div>
-  )}
 
           {/* ABOUT ME TAB */}
           {activeTab === 'about' && (
@@ -1214,15 +1143,10 @@ algunos archivos solo necesitan existir.`,
                   id="newProjectDesc"
                 />
                 <input
-  placeholder="URL de imagen del logo (40x40px)"
-  value={project.logoImage || ''}
-  onChange={(e) => {
-    const updated = [...editingProjects];
-    updated[idx].logoImage = e.target.value;
-    setEditingProjects(updated);
-  }}
-  className="w-full bg-white/5 border border-white/10 px-4 py-2 font-mono text-white lowercase focus:border-red-500 focus:outline-none"
-/>
+                  placeholder="logo (emoji o símbolo, ej: ◉)"
+                  className="w-32 bg-white/5 border border-white/10 px-4 py-2 font-mono text-white focus:border-red-500 focus:outline-none"
+                  id="newProjectLogo"
+                />
                 <input
                   placeholder="link del proyecto (url completa)"
                   className="w-full bg-white/5 border border-white/10 px-4 py-2 font-mono text-white lowercase focus:border-red-500 focus:outline-none"
@@ -1309,7 +1233,7 @@ algunos archivos solo necesitan existir.`,
                         />
                         <div className="flex gap-3">
                           <input
-                            placeholder="logo"
+                            placeholder="logo emoji"
                             value={project.logo}
                             onChange={(e) => {
                               const updated = [...editingProjects];
@@ -1319,16 +1243,26 @@ algunos archivos solo necesitan existir.`,
                             className="w-32 bg-white/5 border border-white/10 px-4 py-2 font-mono text-white focus:border-red-500 focus:outline-none"
                           />
                           <input
-                            placeholder="link (url completa)"
-                            value={project.link || ''}
+                            placeholder="logo URL imagen (40x40px)"
+                            value={project.logoImage || ''}
                             onChange={(e) => {
                               const updated = [...editingProjects];
-                              updated[idx].link = e.target.value;
+                              updated[idx].logoImage = e.target.value;
                               setEditingProjects(updated);
                             }}
                             className="flex-1 bg-white/5 border border-white/10 px-4 py-2 font-mono text-white lowercase focus:border-red-500 focus:outline-none"
                           />
                         </div>
+                        <input
+                          placeholder="link (url completa)"
+                          value={project.link || ''}
+                          onChange={(e) => {
+                            const updated = [...editingProjects];
+                            updated[idx].link = e.target.value;
+                            setEditingProjects(updated);
+                          }}
+                          className="w-full bg-white/5 border border-white/10 px-4 py-2 font-mono text-white lowercase focus:border-red-500 focus:outline-none"
+                        />
                       </div>
                       <button
                         onClick={() => {
@@ -1356,33 +1290,146 @@ algunos archivos solo necesitan existir.`,
               </button>
             </div>
           )}
+
+          {/* MULTIMEDIA TAB */}
+          {activeTab === 'multimedia' && (
+            <div className="space-y-8">
+              <div className="border border-white/10 p-6 space-y-4">
+                <h3 className="font-mono text-white/50 text-sm mb-4">agregar imagen</h3>
+                <input
+                  placeholder="URL de la imagen"
+                  id="newMediaUrl"
+                  className="w-full bg-white/5 border border-white/10 px-4 py-2 font-mono text-white lowercase focus:border-red-500 focus:outline-none"
+                />
+                <input
+                  placeholder="título"
+                  id="newMediaTitle"
+                  className="w-full bg-white/5 border border-white/10 px-4 py-2 font-mono text-white lowercase focus:border-red-500 focus:outline-none"
+                />
+                <input
+                  placeholder="descripción"
+                  id="newMediaDesc"
+                  className="w-full bg-white/5 border border-white/10 px-4 py-2 font-mono text-white lowercase focus:border-red-500 focus:outline-none"
+                />
+                <button
+                  onClick={() => {
+                    const url = document.getElementById('newMediaUrl').value;
+                    const title = document.getElementById('newMediaTitle').value;
+                    const desc = document.getElementById('newMediaDesc').value;
+                    
+                    if (url && title) {
+                      const newItem = {
+                        id: Date.now(),
+                        type: 'image',
+                        url,
+                        title,
+                        desc,
+                        linked: 1
+                      };
+                      const updated = [...mediaItems, newItem];
+                      setMediaItems(updated);
+                      localStorage.setItem('dinamarca_media', JSON.stringify(updated));
+                      document.getElementById('newMediaUrl').value = '';
+                      document.getElementById('newMediaTitle').value = '';
+                      document.getElementById('newMediaDesc').value = '';
+                      alert('Imagen agregada ✓');
+                    }
+                  }}
+                  className="font-mono text-white border border-white/20 px-8 py-3 hover:bg-red-500 hover:border-red-500 transition-all"
+                >
+                  agregar imagen
+                </button>
+              </div>
+
+              <div className="space-y-4">
+                <h3 className="font-mono text-white/50 text-sm">imágenes actuales ({mediaItems.length})</h3>
+                {mediaItems.length === 0 ? (
+                  <div className="font-mono text-white/30 text-sm">no hay imágenes. agregá algunas arriba.</div>
+                ) : (
+                  mediaItems.map((item, idx) => (
+                    <div key={item.id} className="border border-white/10 p-4 flex justify-between items-center">
+                      <div className="flex gap-4 items-center flex-1">
+                        <img src={item.url} alt={item.title} className="w-16 h-16 object-cover" />
+                        <div className="flex-1">
+                          <div className="font-mono text-white lowercase">{item.title}</div>
+                          <div className="font-mono text-white/40 text-xs mt-1">{item.desc}</div>
+                        </div>
+                      </div>
+                      <button
+                        onClick={() => {
+                          if (confirm('¿Eliminar esta imagen?')) {
+                            const updated = mediaItems.filter((_, i) => i !== idx);
+                            setMediaItems(updated);
+                            localStorage.setItem('dinamarca_media', JSON.stringify(updated));
+                          }
+                        }}
+                        className="font-mono text-red-500 hover:underline text-sm ml-4"
+                      >
+                        eliminar
+                      </button>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     );
   };
-const Clima = () => {
-  const ciudades = [
-    'Buenos Aires', 'Ushuaia', 'El Calafate', 'Puerto Madryn',
-    'San Martin de los Andes', 'Viedma', 'Mar del Plata'
-  ];
 
-  return (
-    <div className="min-h-screen bg-black pt-24 sm:pt-32 pb-20 sm:pb-24 px-4 sm:px-8">
-      <div className="max-w-7xl mx-auto">
-        <h1 className="font-mono text-white/30 text-xs sm:text-sm mb-8 sm:mb-12 tracking-widest">CLIMA</h1>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-          {ciudades.map((ciudad, idx) => (
-            <div key={idx} className="border border-white/10 p-4 hover:border-red-500/50 transition-all">
-              <div className="font-mono text-white text-sm mb-2 lowercase">{ciudad}</div>
-              <div className="font-mono text-white/50 text-xs mb-2 lowercase">soleado</div>
-              <div className="font-mono text-2xl" style={{color: '#ff6b6b'}}>24°</div>
-            </div>
-          ))}
+  // Componente CLIMA
+  const Clima = () => {
+    const ciudades = [
+      'Buenos Aires', 'Ushuaia', 'El Calafate', 'Puerto Madryn',
+      'San Martin de los Andes', 'Viedma', 'Cuatral Co', 'Mar del Plata',
+      'Ramos Mejia', 'Trenque Lauquen', 'Santa Rosa', 'Villa Mercedes',
+      'Mendoza', 'Venado Tuerto', 'Rio Cuarto', 'Villa Gral Belgrano',
+      'Concordia', 'Chilecito', 'Curuzu Cuatia', 'Fiambala',
+      'Cafayate', 'Purmamarca', 'Clorinda', 'Puerto Iguazu',
+      'Tartagal', 'Islas Malvinas'
+    ];
+
+    const getColorForTemp = (temp) => {
+      if (temp <= 0) return '#00d4ff'; // Azul muy frío
+      if (temp <= 10) return '#4dd0e1'; // Azul frío
+      if (temp <= 18) return '#9e9e9e'; // Gris templado
+      if (temp <= 25) return '#ffa726'; // Naranja cálido
+      if (temp <= 32) return '#ff6b6b'; // Rojo calor
+      if (temp <= 40) return '#ef5350'; // Rojo fuerte
+      return '#d32f2f'; // Rojo extremo
+    };
+
+    return (
+      <div className="min-h-screen bg-black pt-24 sm:pt-32 pb-20 sm:pb-24 px-4 sm:px-8">
+        <div className="max-w-7xl mx-auto">
+          <h1 className="font-mono text-white/30 text-xs sm:text-sm mb-8 sm:mb-12 tracking-widest">CLIMA</h1>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            {ciudades.map((ciudad, idx) => {
+              // Temperatura simulada (en producción usarías API)
+              const temp = Math.floor(Math.random() * 35) + 5;
+              const condiciones = ['soleado', 'nublado', 'lluvia', 'tormenta', 'viento', 'nevada'];
+              const condicion = condiciones[Math.floor(Math.random() * condiciones.length)];
+              
+              return (
+                <div key={idx} className="border border-white/10 p-4 hover:border-red-500/50 transition-all">
+                  <div className="font-mono text-white text-sm mb-2 lowercase">{ciudad}</div>
+                  <div className="font-mono text-white/50 text-xs mb-2 lowercase">{condicion}</div>
+                  <div 
+                    className="font-mono text-2xl font-bold" 
+                    style={{color: getColorForTemp(temp)}}
+                  >
+                    {temp}°
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
-    </div>
-  );
-};
+    );
+  };
+
   const sections = {
     'home': <Home />,
     'about me': <AboutMe />,
@@ -1468,3 +1515,4 @@ const Clima = () => {
 };
 
 export default DINAMARCA;
+
