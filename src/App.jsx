@@ -1017,7 +1017,30 @@ algunos archivos solo necesitan existir.`,
 
     <div className="space-y-4">
       <h3 className="font-mono text-white/50 text-sm">imágenes actuales</h3>
-      {mediaItems.map((item, idx) =>
+{mediaItems.map((item, idx) => (
+        <div key={item.id} className="border border-white/10 p-4 flex justify-between items-center">
+          <div>
+            <div className="font-mono text-white lowercase">{item.title}</div>
+            <div className="font-mono text-white/40 text-xs mt-1">{item.desc}</div>
+          </div>
+          <button
+            onClick={() => {
+              if (confirm('¿Eliminar esta imagen?')) {
+                const updated = mediaItems.filter((_, i) => i !== idx);
+                setMediaItems(updated);
+                localStorage.setItem('dinamarca_media', JSON.stringify(updated));
+              }
+            }}
+            className="font-mono text-red-500 hover:underline text-sm"
+          >
+            eliminar
+          </button>
+        </div>
+      ))}
+      </div>
+    </div>
+  )}
+
           {/* ABOUT ME TAB */}
           {activeTab === 'about' && (
             <div className="space-y-6">
