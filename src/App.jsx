@@ -1017,7 +1017,7 @@ algunos archivos solo necesitan existir.`,
 
     <div className="space-y-4">
       <h3 className="font-mono text-white/50 text-sm">imágenes actuales</h3>
-{mediaItems.map((item, idx) => (
+
         <div key={item.id} className="border border-white/10 p-4 flex justify-between items-center">
           <div>
             <div className="font-mono text-white lowercase">{item.title}</div>
@@ -1036,7 +1036,7 @@ algunos archivos solo necesitan existir.`,
             eliminar
           </button>
         </div>
-      ))}
+    
       </div>
     </div>
   )}
