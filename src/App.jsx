@@ -7,6 +7,7 @@ const DINAMARCA = () => {
   const [selectedProject, setSelectedProject] = useState(null);
   const [selectedPublication, setSelectedPublication] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [adminPassword, setAdminPassword] = useState('');
   const [showAdminLogin, setShowAdminLogin] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -575,12 +576,48 @@ algunos archivos solo necesitan existir.`,
     </div>
   );
 
-  const Multimedia = () => (
-    <div className="min-h-screen bg-black pt-24 sm:pt-32 pb-20 sm:pb-24 px-4 sm:px-8">
-      <div className="max-w-7xl mx-auto">
-        <h1 className="font-mono text-white/30 text-xs sm:text-sm mb-8 sm:mb-12 tracking-widest">MULTIMEDIA</h1>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
-          {mediaItems.map(item => (
+  const Multimedia = () => {
+    // Extraer todas las imágenes de todas las publicaciones
+    const allImages = publicaciones.flatMap(pub => {
+      const images = [];
+      // Agregar hero image
+      if (pub.heroImage) {
+        images.push({
+          id: `${pub.id}-hero`,
+          url: pub.heroImage,
+          title: pub.title,
+          desc: pub.preview,
+          pubId: pub.id
+        });
+      }
+      // Agregar imágenes adicionales
+      if (pub.images && pub.images.length > 0) {
+        pub.images.forEach((img, idx) => {
+          if (idx > 0) { // Skip hero image si ya está en images array
+            images.push({
+              id: `${pub.id}-img-${idx}`,
+              url: img,
+              title: pub.title,
+              desc: `imagen ${idx} - ${pub.title}`,
+              pubId: pub.id
+            });
+          }
+        });
+      }
+      return images;
+    });
+
+    return (
+      <div className="min-h-screen bg-black pt-24 sm:pt-32 pb-20 sm:pb-24 px-4 sm:px-8">
+        <div className="max-w-7xl mx-auto">
+          <h1 className="font-mono text-white/30 text-xs sm:text-sm mb-8 sm:mb-12 tracking-widest">MULTIMEDIA</h1>
+          {allImages.length === 0 ? (
+            <div className="font-mono text-white/30 text-sm text-center py-12">
+              no hay imágenes. creá publicaciones con imágenes para verlas acá.
+            </div>
+          ) : (
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
+              {allImages.map(item => (
             <div
               key={item.id}
               onClick={() => setSelectedMedia(item)}
@@ -646,8 +683,9 @@ algunos archivos solo necesitan existir.`,
             </div>
           ))}
         </div>
+          )}
         <div className="mt-6 sm:mt-8 text-center font-mono text-white/30 text-xs">
-          // scroll para más contenido visual
+          // todas las imágenes de publicaciones
         </div>
       </div>
       
@@ -673,7 +711,8 @@ algunos archivos solo necesitan existir.`,
         </div>
       )}
     </div>
-  );
+    );
+  };
 
   const Proyectos = () => (
     <div className="min-h-screen bg-black pt-24 sm:pt-32 pb-20 sm:pb-24 px-4 sm:px-8">
@@ -1379,14 +1418,37 @@ algunos archivos solo necesitan existir.`,
 
   // Componente CLIMA
   const Clima = () => {
-    const ciudades = [
-      'Buenos Aires', 'Ushuaia', 'El Calafate', 'Puerto Madryn',
-      'San Martin de los Andes', 'Viedma', 'Cuatral Co', 'Mar del Plata',
-      'Ramos Mejia', 'Trenque Lauquen', 'Santa Rosa', 'Villa Mercedes',
-      'Mendoza', 'Venado Tuerto', 'Rio Cuarto', 'Villa Gral Belgrano',
-      'Concordia', 'Chilecito', 'Curuzu Cuatia', 'Fiambala',
-      'Cafayate', 'Purmamarca', 'Clorinda', 'Puerto Iguazu',
-      'Tartagal', 'Islas Malvinas'
+    const ciudadesConFotos = [
+      { nombre: 'Buenos Aires', imagen: 'https://images.unsplash.com/photo-1589909202802-8f4aadce1849?w=400' },
+      { nombre: 'Ushuaia', imagen: 'https://images.unsplash.com/photo-1673717734254-28f0bc3a1d9c?w=400' },
+      { nombre: 'El Calafate', imagen: 'https://images.unsplash.com/photo-1551632811-561732d1e306?w=400' },
+      { nombre: 'Puerto Madryn', imagen: 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400' },
+      { nombre: 'San Martin de los Andes', imagen: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400' },
+      { nombre: 'Viedma', imagen: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400' },
+      { nombre: 'Cuatral Co', imagen: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400' },
+      { nombre: 'Mar del Plata', imagen: 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400' },
+      { nombre: 'Ramos Mejia', imagen: 'https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?w=400' },
+      { nombre: 'Trenque Lauquen', imagen: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400' },
+      { nombre: 'Santa Rosa', imagen: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400' },
+      { nombre: 'Villa Mercedes', imagen: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400' },
+      { nombre: 'Mendoza', imagen: 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400' },
+      { nombre: 'Venado Tuerto', imagen: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400' },
+      { nombre: 'Rio Cuarto', imagen: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400' },
+      { nombre: 'Villa Gral Belgrano', imagen: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400' },
+      { nombre: 'Concordia', imagen: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400' },
+      { nombre: 'Chilecito', imagen: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400' },
+      { nombre: 'Curuzu Cuatia', imagen: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400' },
+      { nombre: 'Fiambala', imagen: 'https://images.unsplash.com/photo-1509023464722-18d996393ca8?w=400' },
+      { nombre: 'Cafayate', imagen: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400' },
+      { nombre: 'Purmamarca', imagen: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400' },
+      { nombre: 'Clorinda', imagen: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400' },
+      { nombre: 'Puerto Iguazu', imagen: 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400' },
+      { nombre: 'Tartagal', imagen: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400' },
+      { nombre: 'Islas Malvinas', imagen: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400' },
+      { nombre: 'San Isidro', imagen: 'https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?w=400' },
+      { nombre: 'La Plata', imagen: 'https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?w=400' },
+      { nombre: 'Pehuajo', imagen: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400' },
+      { nombre: 'Base Marambio', imagen: 'https://images.unsplash.com/photo-1483664852095-d6cc6870702d?w=400' }
     ];
 
     const getColorForTemp = (temp) => {
@@ -1404,21 +1466,37 @@ algunos archivos solo necesitan existir.`,
         <div className="max-w-7xl mx-auto">
           <h1 className="font-mono text-white/30 text-xs sm:text-sm mb-8 sm:mb-12 tracking-widest">CLIMA</h1>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-            {ciudades.map((ciudad, idx) => {
+            {ciudadesConFotos.map((ciudad, idx) => {
               // Temperatura simulada (en producción usarías API)
               const temp = Math.floor(Math.random() * 35) + 5;
               const condiciones = ['soleado', 'nublado', 'lluvia', 'tormenta', 'viento', 'nevada'];
               const condicion = condiciones[Math.floor(Math.random() * condiciones.length)];
               
               return (
-                <div key={idx} className="border border-white/10 p-4 hover:border-red-500/50 transition-all">
-                  <div className="font-mono text-white text-sm mb-2 lowercase">{ciudad}</div>
-                  <div className="font-mono text-white/50 text-xs mb-2 lowercase">{condicion}</div>
+                <div 
+                  key={idx} 
+                  className="relative border border-white/10 p-4 hover:border-red-500/50 transition-all overflow-hidden group"
+                >
+                  {/* Imagen de fondo con degradado muy oscuro */}
                   <div 
-                    className="font-mono text-2xl font-bold" 
-                    style={{color: getColorForTemp(temp)}}
-                  >
-                    {temp}°
+                    className="absolute inset-0 opacity-20 group-hover:opacity-30 transition-opacity"
+                    style={{
+                      backgroundImage: `linear-gradient(to right, rgba(0,0,0,0.95), rgba(0,0,0,0.7)), url(${ciudad.imagen})`,
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center'
+                    }}
+                  />
+                  
+                  {/* Contenido sobre la imagen */}
+                  <div className="relative z-10">
+                    <div className="font-mono text-white text-sm mb-2 lowercase">{ciudad.nombre}</div>
+                    <div className="font-mono text-white/50 text-xs mb-2 lowercase">{condicion}</div>
+                    <div 
+                      className="font-mono text-2xl font-bold" 
+                      style={{color: getColorForTemp(temp)}}
+                    >
+                      {temp}°
+                    </div>
                   </div>
                 </div>
               );
@@ -1514,4 +1592,3 @@ algunos archivos solo necesitan existir.`,
 };
 
 export default DINAMARCA;
-
