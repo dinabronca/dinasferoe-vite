@@ -702,6 +702,13 @@ algunos archivos solo necesitan existir.`,
               onClick={() => {
                 setSelectedMedia(null);
                 setCurrentSection('publicaciones');
+                // Encontrar y abrir la publicación específica
+                setTimeout(() => {
+                  const pub = publicaciones.find(p => p.id === selectedMedia.pubId);
+                  if (pub) {
+                    setSelectedPublication(pub);
+                  }
+                }, 100);
               }}
               className="mt-3 sm:mt-4 font-mono text-red-500 text-xs hover:underline"
             >
@@ -1637,3 +1644,4 @@ algunos archivos solo necesitan existir.`,
 };
 
 export default DINAMARCA;
+
