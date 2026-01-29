@@ -1418,66 +1418,110 @@ algunos archivos solo necesitan existir.`,
 
   // Componente CLIMA
   const Clima = () => {
+    const [weatherData, setWeatherData] = useState({});
+    const [loading, setLoading] = useState(true);
+
     const ciudadesConFotos = [
-      { nombre: 'Buenos Aires', imagen: 'https://i.pinimg.com/1200x/2c/10/43/2c104376c2708609bdc442a63146247e.jpg' },
-      { nombre: 'Ushuaia', imagen: 'https://i.pinimg.com/1200x/a4/c1/a8/a4c1a858d01267fa2df562d1cb84f37c.jpg' },
-      { nombre: 'El Calafate', imagen: 'https://i.pinimg.com/1200x/87/b9/b4/87b9b413c6b3719971bf5d4c6f40e2ef.jpg' },
-      { nombre: 'Puerto Madryn', imagen: 'https://i.pinimg.com/1200x/15/00/e4/1500e4174f1246e6a221f37e680f23a9.jpg' },
-      { nombre: 'San Martin de los Andes', imagen: 'https://i.pinimg.com/736x/58/8f/ee/588fee60b3355853ef196f691973fee2.jpg' },
-      { nombre: 'Viedma', imagen: 'https://i.pinimg.com/736x/0b/66/e8/0b66e80ef5a58a19dc74b1038365f499.jpg' },
-      { nombre: 'Cuatral Co', imagen: 'https://i.pinimg.com/1200x/28/13/fc/2813fc0703ffa2de77a9055d9f7d0595.jpg' },
-      { nombre: 'Mar del Plata', imagen: 'https://i.pinimg.com/1200x/c6/0a/41/c60a411cc5cc25641f9b5b8b08ff5bb7.jpg' },
-      { nombre: 'Ramos Mejia', imagen: 'https://i.pinimg.com/1200x/f8/34/77/f83477dc37b8f54da13fe224fd0c2d43.jpg' },
-      { nombre: 'Trenque Lauquen', imagen: 'https://i.pinimg.com/1200x/d6/23/13/d62313512542dfa69e90b8e2590eb800.jpg' },
-      { nombre: 'Santa Rosa', imagen: 'https://i.pinimg.com/1200x/62/0c/52/620c52a60e8a01e73a6bc636ee3b739f.jpg' },
-      { nombre: 'Villa Mercedes', imagen: 'https://i.pinimg.com/736x/cc/25/36/cc25360301068e62dc6f515824c55e9c.jpg' },
-      { nombre: 'Mendoza', imagen: 'https://i.pinimg.com/736x/3d/42/6e/3d426e2055699351ab582bf8efe2c7d0.jpg' },
-      { nombre: 'Venado Tuerto', imagen: 'https://i.pinimg.com/1200x/8e/85/68/8e856850e4ad3538bb18b1c0c4c47846.jpg' },
-      { nombre: 'Rio Cuarto', imagen: 'https://i.pinimg.com/1200x/3a/ea/4c/3aea4c4fd23faf003452b97f82a266fb.jpg' },
-      { nombre: 'Villa Gral Belgrano', imagen: 'https://i.pinimg.com/1200x/50/04/8b/50048b76f2e7a876b8502e4479657c2d.jpg' },
-      { nombre: 'Concordia', imagen: 'https://i.pinimg.com/1200x/b8/3e/0a/b83e0ac7738a47c84bc79d16430d8217.jpg' },
-      { nombre: 'Chilecito', imagen: 'https://i.pinimg.com/1200x/bb/c6/5f/bbc65f94c4b43052c0c6ec86e943b6e6.jpg' },
-      { nombre: 'Curuzu Cuatia', imagen: 'https://i.pinimg.com/736x/b6/f6/5f/b6f65f6870ddf6d2222ea143c2aef59d.jpg' },
-      { nombre: 'Fiambala', imagen: 'https://i.pinimg.com/736x/b2/ff/3f/b2ff3fddfce674a52ad9c6d1eb99ad15.jpg' },
-      { nombre: 'Cafayate', imagen: 'https://i.pinimg.com/736x/b4/94/36/b494368665c2a6011e8697354b7b6697.jpg' },
-      { nombre: 'Purmamarca', imagen: 'https://i.pinimg.com/1200x/4d/fa/94/4dfa947b71227e0be3df8492159f579b.jpg' },
-      { nombre: 'Clorinda', imagen: 'https://i.pinimg.com/736x/59/9e/79/599e79a2b3e94edbce4e8dc87fa3e800.jpg' },
-      { nombre: 'Puerto Iguazu', imagen: 'https://i.pinimg.com/736x/82/24/56/822456f46023589086411105591e6e87.jpg' },
-      { nombre: 'Tartagal', imagen: 'https://i.pinimg.com/1200x/04/68/af/0468af79324a6e8beb736f61566a2bd5.jpg' },
-      { nombre: 'Islas Malvinas', imagen: 'https://i.pinimg.com/1200x/99/77/be/9977beb0331a3dd05940e218dad96ef7.jpg' },
-      { nombre: 'San Isidro', imagen: 'https://i.pinimg.com/736x/4d/32/1b/4d321b5f6293248cdf15936a3c07200b.jpg' },
-      { nombre: 'La Plata', imagen: 'https://i.pinimg.com/736x/c5/a7/21/c5a721baeddadca3e337a7ee5cc631b1.jpg' },
-      { nombre: 'Pehuajo', imagen: 'https://i.pinimg.com/736x/a0/a8/3b/a0a83be488519a7ddbd226de91eb9b87.jpg' },
-      { nombre: 'Base Marambio', imagen: 'https://i.pinimg.com/736x/9e/d6/f0/9ed6f02cd9aba22b33ac503c03ba4643.jpg' }
+      { nombre: 'Buenos Aires', imagen: 'https://i.pinimg.com/1200x/2c/10/43/2c104376c2708609bdc442a63146247e.jpg', coords: '-34.6037,-58.3816' },
+      { nombre: 'Ushuaia', imagen: 'https://i.pinimg.com/1200x/a4/c1/a8/a4c1a858d01267fa2df562d1cb84f37c.jpg', coords: '-54.8019,-68.3030' },
+      { nombre: 'El Calafate', imagen: 'https://i.pinimg.com/1200x/87/b9/b4/87b9b413c6b3719971bf5d4c6f40e2ef.jpg', coords: '-50.3373,-72.2647' },
+      { nombre: 'Puerto Madryn', imagen: 'https://i.pinimg.com/1200x/15/00/e4/1500e4174f1246e6a221f37e680f23a9.jpg', coords: '-42.7692,-65.0391' },
+      { nombre: 'San Martin de los Andes', imagen: 'https://i.pinimg.com/736x/58/8f/ee/588fee60b3355853ef196f691973fee2.jpg', coords: '-40.1572,-71.3532' },
+      { nombre: 'Viedma', imagen: 'https://i.pinimg.com/736x/0b/66/e8/0b66e80ef5a58a19dc74b1038365f499.jpg', coords: '-40.8135,-62.9967' },
+      { nombre: 'Cuatral Co', imagen: 'https://i.pinimg.com/1200x/28/13/fc/2813fc0703ffa2de77a9055d9f7d0595.jpg', coords: '-37.9167,-68.3500' },
+      { nombre: 'Mar del Plata', imagen: 'https://i.pinimg.com/1200x/c6/0a/41/c60a411cc5cc25641f9b5b8b08ff5bb7.jpg', coords: '-38.0055,-57.5426' },
+      { nombre: 'Ramos Mejia', imagen: 'https://i.pinimg.com/1200x/f8/34/77/f83477dc37b8f54da13fe224fd0c2d43.jpg', coords: '-34.6417,-58.5647' },
+      { nombre: 'Trenque Lauquen', imagen: 'https://i.pinimg.com/1200x/d6/23/13/d62313512542dfa69e90b8e2590eb800.jpg', coords: '-35.9733,-62.7306' },
+      { nombre: 'Santa Rosa', imagen: 'https://i.pinimg.com/1200x/62/0c/52/620c52a60e8a01e73a6bc636ee3b739f.jpg', coords: '-36.6167,-64.2833' },
+      { nombre: 'Villa Mercedes', imagen: 'https://i.pinimg.com/736x/cc/25/36/cc25360301068e62dc6f515824c55e9c.jpg', coords: '-33.6758,-65.4603' },
+      { nombre: 'Mendoza', imagen: 'https://i.pinimg.com/736x/3d/42/6e/3d426e2055699351ab582bf8efe2c7d0.jpg', coords: '-32.8895,-68.8458' },
+      { nombre: 'Venado Tuerto', imagen: 'https://i.pinimg.com/1200x/8e/85/68/8e856850e4ad3538bb18b1c0c4c47846.jpg', coords: '-33.7456,-61.9689' },
+      { nombre: 'Rio Cuarto', imagen: 'https://i.pinimg.com/1200x/3a/ea/4c/3aea4c4fd23faf003452b97f82a266fb.jpg', coords: '-33.1239,-64.3494' },
+      { nombre: 'Villa Gral Belgrano', imagen: 'https://i.pinimg.com/1200x/50/04/8b/50048b76f2e7a876b8502e4479657c2d.jpg', coords: '-31.9772,-64.5597' },
+      { nombre: 'Concordia', imagen: 'https://i.pinimg.com/1200x/b8/3e/0a/b83e0ac7738a47c84bc79d16430d8217.jpg', coords: '-31.3933,-58.0208' },
+      { nombre: 'Chilecito', imagen: 'https://i.pinimg.com/1200x/bb/c6/5f/bbc65f94c4b43052c0c6ec86e943b6e6.jpg', coords: '-29.1639,-67.4981' },
+      { nombre: 'Curuzu Cuatia', imagen: 'https://i.pinimg.com/736x/b6/f6/5f/b6f65f6870ddf6d2222ea143c2aef59d.jpg', coords: '-29.7917,-58.0528' },
+      { nombre: 'Fiambala', imagen: 'https://i.pinimg.com/736x/b2/ff/3f/b2ff3fddfce674a52ad9c6d1eb99ad15.jpg', coords: '-27.6917,-67.6139' },
+      { nombre: 'Cafayate', imagen: 'https://i.pinimg.com/736x/b4/94/36/b494368665c2a6011e8697354b7b6697.jpg', coords: '-26.0733,-65.9789' },
+      { nombre: 'Purmamarca', imagen: 'https://i.pinimg.com/1200x/4d/fa/94/4dfa947b71227e0be3df8492159f579b.jpg', coords: '-23.7419,-65.4986' },
+      { nombre: 'Clorinda', imagen: 'https://i.pinimg.com/736x/59/9e/79/599e79a2b3e94edbce4e8dc87fa3e800.jpg', coords: '-25.2844,-57.7186' },
+      { nombre: 'Puerto Iguazu', imagen: 'https://i.pinimg.com/736x/82/24/56/822456f46023589086411105591e6e87.jpg', coords: '-25.5978,-54.5789' },
+      { nombre: 'Tartagal', imagen: 'https://i.pinimg.com/1200x/04/68/af/0468af79324a6e8beb736f61566a2bd5.jpg', coords: '-22.5164,-63.8014' },
+      { nombre: 'Islas Malvinas', imagen: 'https://i.pinimg.com/1200x/99/77/be/9977beb0331a3dd05940e218dad96ef7.jpg', coords: '-51.7963,-59.5236' },
+      { nombre: 'San Isidro', imagen: 'https://i.pinimg.com/736x/4d/32/1b/4d321b5f6293248cdf15936a3c07200b.jpg', coords: '-34.4708,-58.5278' },
+      { nombre: 'La Plata', imagen: 'https://i.pinimg.com/736x/c5/a7/21/c5a721baeddadca3e337a7ee5cc631b1.jpg', coords: '-34.9214,-57.9544' },
+      { nombre: 'Pehuajo', imagen: 'https://i.pinimg.com/736x/a0/a8/3b/a0a83be488519a7ddbd226de91eb9b87.jpg', coords: '-35.8119,-61.8981' },
+      { nombre: 'Base Marambio', imagen: 'https://i.pinimg.com/736x/9e/d6/f0/9ed6f02cd9aba22b33ac503c03ba4643.jpg', coords: '-64.2400,-56.6267' }
     ];
 
+    useEffect(() => {
+      const fetchWeather = async () => {
+        const API_KEY = '770e8847a60823082fc5fa6fc57ed1bb';
+        const newWeatherData = {};
+
+        for (const ciudad of ciudadesConFotos) {
+          try {
+            const [lat, lon] = ciudad.coords.split(',');
+            const response = await fetch(
+              `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric&lang=es`
+            );
+            const data = await response.json();
+            
+            if (data.main && data.weather) {
+              newWeatherData[ciudad.nombre] = {
+                temp: Math.round(data.main.temp),
+                description: data.weather[0].description
+              };
+            }
+          } catch (error) {
+            console.error(`Error fetching weather for ${ciudad.nombre}:`, error);
+            newWeatherData[ciudad.nombre] = {
+              temp: '--',
+              description: 'sin datos'
+            };
+          }
+        }
+
+        setWeatherData(newWeatherData);
+        setLoading(false);
+      };
+
+      fetchWeather();
+      // Actualizar cada 10 minutos
+      const interval = setInterval(fetchWeather, 600000);
+      return () => clearInterval(interval);
+    }, []);
+
     const getColorForTemp = (temp) => {
-      if (temp <= 0) return '#00d4ff'; // Azul muy frío
-      if (temp <= 10) return '#4dd0e1'; // Azul frío
-      if (temp <= 18) return '#9e9e9e'; // Gris templado
-      if (temp <= 25) return '#ffa726'; // Naranja cálido
-      if (temp <= 32) return '#ff6b6b'; // Rojo calor
-      if (temp <= 40) return '#ef5350'; // Rojo fuerte
-      return '#d32f2f'; // Rojo extremo
+      if (typeof temp !== 'number') return '#9e9e9e';
+      if (temp <= 0) return '#00d4ff';
+      if (temp <= 10) return '#4dd0e1';
+      if (temp <= 18) return '#9e9e9e';
+      if (temp <= 25) return '#ffa726';
+      if (temp <= 32) return '#ff6b6b';
+      if (temp <= 40) return '#ef5350';
+      return '#d32f2f';
     };
 
     return (
       <div className="min-h-screen bg-black pt-24 sm:pt-32 pb-20 sm:pb-24 px-4 sm:px-8">
         <div className="max-w-7xl mx-auto">
           <h1 className="font-mono text-white/30 text-xs sm:text-sm mb-8 sm:mb-12 tracking-widest">CLIMA</h1>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-            {ciudadesConFotos.map((ciudad, idx) => {
-              // Temperatura simulada (en producción usarías API)
-              const temp = Math.floor(Math.random() * 35) + 5;
-              const condiciones = ['soleado', 'nublado', 'lluvia', 'tormenta', 'viento', 'nevada'];
-              const condicion = condiciones[Math.floor(Math.random() * condiciones.length)];
-              
-              return (
-                <div 
-                  key={idx} 
-                  className="relative border border-white/10 p-4 hover:border-red-500/50 transition-all overflow-hidden group"
-                >
-                  {/* Imagen de fondo con degradado muy oscuro */}
+          {loading ? (
+            <div className="font-mono text-white/30 text-sm text-center py-12">
+              cargando temperaturas en vivo...
+            </div>
+          ) : (
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+              {ciudadesConFotos.map((ciudad, idx) => {
+                const weather = weatherData[ciudad.nombre] || { temp: '--', description: 'sin datos' };
+                
+                return (
+                  <div 
+                    key={idx} 
+                    className="relative border border-white/10 p-4 hover:border-red-500/50 transition-all overflow-hidden group"
+                  >
+                    {/* Imagen de fondo con degradado muy oscuro */}
                   <div 
                     className="absolute inset-0 opacity-20 group-hover:opacity-30 transition-opacity"
                     style={{
@@ -1490,18 +1534,19 @@ algunos archivos solo necesitan existir.`,
                   {/* Contenido sobre la imagen */}
                   <div className="relative z-10">
                     <div className="font-mono text-white text-sm mb-2 lowercase">{ciudad.nombre}</div>
-                    <div className="font-mono text-white/50 text-xs mb-2 lowercase">{condicion}</div>
+                    <div className="font-mono text-white/50 text-xs mb-2 lowercase">{weather.description}</div>
                     <div 
                       className="font-mono text-2xl font-bold" 
-                      style={{color: getColorForTemp(temp)}}
+                      style={{color: getColorForTemp(weather.temp)}}
                     >
-                      {temp}°
+                      {weather.temp}°
                     </div>
                   </div>
                 </div>
               );
             })}
           </div>
+          )}
         </div>
       </div>
     );
@@ -1592,4 +1637,3 @@ algunos archivos solo necesitan existir.`,
 };
 
 export default DINAMARCA;
-
